@@ -13,7 +13,7 @@ def find_prices(item_ids):
 
     ret = []
     
-    auctions = util.download_auctions_json()
+    auctions, timestamp = util.download_auctions_json()
 
     for index, item_id in enumerate(item_ids):
         item_id_int = int(item_id)

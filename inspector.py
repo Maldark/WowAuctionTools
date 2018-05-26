@@ -8,7 +8,7 @@ import config
 def inspect(target, realm):    
     target = target[0].capitalize() + target[1:]
 
-    auctions = util.download_auctions_json(realm)
+    auctions, timestamp = util.download_auctions_json(realm)
 
     owner_dict = [x for x in auctions if x["owner"] == target]
 
@@ -50,7 +50,7 @@ if __name__ == "__main__":
     
     if len(sys.argv) <= 1:
         print("No user specified, assuming {}".format(config.DEFAULT_USER))
-        user = DEFAULT_USER
+        user = config.DEFAULT_USER
     else:
         user = sys.argv[1]
     

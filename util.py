@@ -21,12 +21,14 @@ def download_auctions_json(realm=config.DEFAULT_REALM):
             url_data = data["files"][0]["url"]
             lastModified = data["files"][0]["lastModified"]
 
-            print("Last auctions update:", datetime.datetime.fromtimestamp(lastModified/1000.0))
+            timestamp = datetime.datetime.fromtimestamp(lastModified/1000.0).strftime("%H:%M:%S %d/%m-%Y")
+
+            print("Last auctions update:", timestamp)
 
             cached = check_for_cached_auctions(lastModified)
             if cached is not None:
                 print("Found cached download, let's not download it again..")
-                return cached
+                return cached, timestamp
             else:
                 if url_data is None:
                     print("Error! No URL could be found at the given address: ", url_paramterized)
@@ -40,7 +42,7 @@ def download_auctions_json(realm=config.DEFAULT_REALM):
                     
                     print("Downloaded auctions for:", data["realms"][0]["name"])
 
-                    return data["auctions"]
+                    return data["auctions"], timestamp
 
             return auctions
     except urllib.error.HTTPError as err:
@@ -48,6 +50,7 @@ def download_auctions_json(realm=config.DEFAULT_REALM):
 
 def check_for_cached_auctions(lastModified):
     path = os.path.join(config.SAVE_DIR_JSON, str(lastModified) + ".json")
+    client_secret = os.path.join(config.SAVE_DIR_JSON, "client_secret.json")
 
     for file in glob.glob(os.path.join(config.SAVE_DIR_JSON, "*.json")):
         if file == path:
@@ -55,6 +58,6 @@ def check_for_cached_auctions(lastModified):
                 data = json.load(f)
                 return data
         else:
-            os.remove(file) # delete old json files
-
+            if (file != client_secret):
+                os.remove(file) # delete old json files
     return None

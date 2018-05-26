@@ -1,11 +1,15 @@
 import os
 
+# Spreadsheet settings
+SPREADSHEET_ID = ''
+SPREADSHEET_DATA_RANGE = ''
+
+# API settings
 API_KEY = ""
 LOCALE_AUCTION = "en_GB"
 LOCALE_ITEM = "en_US"
 DEFAULT_REALM = "Stormscale"
 DEFAULT_USER = "Maldark"
 
-SAVE_NAME_FILTERED = "filtered_auctions.json"
+# Save files settings
 SAVE_DIR_JSON = os.path.dirname(os.path.realpath(__file__)) # Change to absolute path or keep as is for current directory
-SAVE_DIR_JSON_FILTERED = os.path.dirname(os.path.realpath(__file__)) # Change to absolute path or keep as is for current directory
