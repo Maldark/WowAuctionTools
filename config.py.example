@@ -7,5 +7,5 @@ DEFAULT_REALM = "Stormscale"
 DEFAULT_USER = "Maldark"
 
 SAVE_NAME_FILTERED = "filtered_auctions.json"
-SAVE_DIR_JSON = os.getcwd() # Change to absolute path or keep as is for current directory
-SAVE_DIR_JSON_FILTERED = os.getcwd() # Change to absolute path or keep as is for current directory
+SAVE_DIR_JSON = os.path.dirname(os.path.realpath(__file__)) # Change to absolute path or keep as is for current directory
+SAVE_DIR_JSON_FILTERED = os.path.dirname(os.path.realpath(__file__)) # Change to absolute path or keep as is for current directory
