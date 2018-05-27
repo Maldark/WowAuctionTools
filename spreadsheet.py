@@ -59,6 +59,7 @@ def update_prices(sheet_data, auctions):
             mins[item_id] = price
         
     for row in sheet_data:
+        id = 0
         try:
             if len(row) > 1:
                 id = int(row[0])
@@ -67,8 +68,10 @@ def update_prices(sheet_data, auctions):
                 row[3] = price[1]
                 row[4] = price[2]
 
-        except ValueError as identifier:
+        except ValueError:
             pass
+        except IndexError:
+            print("Error! Item id {} has no gold/silver/copper values! Enter 0's as temporary data when adding new fields.".format(id))
 
     return sheet_data
 
