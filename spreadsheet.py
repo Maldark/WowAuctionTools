@@ -62,7 +62,7 @@ def update_prices(sheet_data, auctions):
         try:
             if len(row) > 1:
                 id = int(row[0])
-                price = SplitGoldString(mins[id])
+                price = util.SplitGoldString(mins[id])
                 row[2] = price[0]
                 row[3] = price[1]
                 row[4] = price[2]
@@ -70,38 +70,7 @@ def update_prices(sheet_data, auctions):
         except ValueError as identifier:
             pass
 
-#       if (!Array.isArray(item_ids)) {
-#     item_ids = [item_ids];
-#   }
-  
-#   mins = {}
-#   test = {}
-  
-#   for each (auction in auctions) {
-#     item_id = auction['item'].toString()
-#     test[item_id] = 1;
-#     price = auction['quantity'] > 1 ?  Math.floor(auction['buyout']/auction['quantity']) : auction['buyout'];
-        
-#     // If we don't have a minimum or if this is a new minimum
-#     if ((mins[item_id] == undefined || mins[item_id] > price) && price > 0) {
-#       mins[item_id] = price;
-#     }
-#   }
-  
-#   return mins;
     return sheet_data
-
-def FormatGold(input):
-    split = SplitGoldString(input)
-    return split[0] + "g " + split[1] + "s " + split[3] + "c"
-
-def ReplaceEmptyWithZero(input):
-    return 0 if input is None or len(input) == 0 else input
-
-def SplitGoldString(input):
-    input = str(input)
-    
-    return [ReplaceEmptyWithZero(input[:-4]), ReplaceEmptyWithZero(input[-4:-2]), ReplaceEmptyWithZero(input[-2:])]
 
 if __name__ == "__main__":
     main()

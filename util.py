@@ -23,11 +23,11 @@ def download_auctions_json(realm=config.DEFAULT_REALM):
 
             timestamp = datetime.datetime.fromtimestamp(lastModified/1000.0).strftime("%H:%M:%S %d/%m-%Y")
 
-            print("Last auctions update:", timestamp)
+            print("Latest auction data:", timestamp)
 
             cached = check_for_cached_auctions(lastModified)
             if cached is not None:
-                print("Found cached download, let's not download it again..")
+                #print("Found cached download, let's not download it again..")
                 return cached, timestamp
             else:
                 if url_data is None:
@@ -40,7 +40,7 @@ def download_auctions_json(realm=config.DEFAULT_REALM):
                     with open(os.path.join(config.SAVE_DIR_JSON, str(lastModified) + ".json"), 'w') as outfile:
                         json.dump(data["auctions"], outfile)
                     
-                    print("Downloaded auctions for:", data["realms"][0]["name"])
+                    #print("Downloaded auctions for:", data["realms"][0]["name"])
 
                     return data["auctions"], timestamp
 
@@ -54,10 +54,25 @@ def check_for_cached_auctions(lastModified):
 
     for file in glob.glob(os.path.join(config.SAVE_DIR_JSON, "*.json")):
         if file == path:
-            with open(path) as f:
-                data = json.load(f)
-                return data
+            try:
+                with open(path) as f:
+                    data = json.load(f)
+                    return data
+            except Exception:
+                return None
         else:
             if (file != client_secret):
                 os.remove(file) # delete old json files
     return None
+
+def FormatGold(input):
+    split = SplitGoldString(input)
+    return split[0] + "g " + split[1] + "s " + split[3] + "c"
+
+def ReplaceEmptyWithZero(input):
+    return 0 if input is None or len(input) == 0 else input
+
+def SplitGoldString(input):
+    input = str(input)
+    
+    return [ReplaceEmptyWithZero(input[:-4]), ReplaceEmptyWithZero(input[-4:-2]), ReplaceEmptyWithZero(input[-2:])]

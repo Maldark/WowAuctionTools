@@ -1,1 +1,2 @@
-python %~dp0\spreadsheet.py
+SET "DIR=%~dp0"
+python "%DIR%\spreadsheet.py"

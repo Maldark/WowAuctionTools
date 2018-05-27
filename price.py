@@ -11,7 +11,7 @@ def find_prices(item_ids):
     if not isinstance(item_ids, list):
         item_ids = [item_ids]
 
-    ret = []
+    ret = {}
     
     auctions, timestamp = util.download_auctions_json()
 
@@ -32,9 +32,8 @@ def find_prices(item_ids):
     
         lowest_price = min([x['buyout'] for x in auctions if x['item'] == item_id_int])
         lowest_price_str = str(lowest_price)
-        print("{} sells for {}g {}s {}c".format(item_name, lowest_price_str[:-4], lowest_price_str[-4:-2], lowest_price_str[-2:]))
 
-        ret.insert(len(ret), lowest_price)
+        ret[item_name] = lowest_price
 
     return ret
 
@@ -45,4 +44,6 @@ if __name__ == "__main__":
     else:
         items = sys.argv[1:]
         prices = find_prices(items)
-        print(prices)
+        for key, value in prices.items():
+            value = str(value)
+            print("{} sells for {}g {}s {}c".format(key, util.ReplaceEmptyWithZero(value[:-4]), util.ReplaceEmptyWithZero(value[-4:-2]), util.ReplaceEmptyWithZero(value[-2:])))
